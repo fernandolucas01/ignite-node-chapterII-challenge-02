@@ -1,0 +1,325 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Atlas",
+    "description": "Essa é uma documentação sobre a Atlas API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": "Gerenciamento de usuários"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create an user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Juninho",
+                  "email": "juninho@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "d93c2c01-9bd0-4219-914f-e38c6765885c",
+                    "admin": false,
+                    "name": "Juninho",
+                    "email": "juninho@email.com",
+                    "created_at": "2022-06-16T16:58:34.836Z",
+                    "updated_at": "2022-06-16T16:58:34.836Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "User already exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "List all users",
+        "description": "Admin type users can list all users",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "d93c2c01-9bd0-4219-914f-e38c6765885c",
+                      "admin": true,
+                      "name": "Juninho",
+                      "email": "juninho@email.com",
+                      "created_at": "2022-06-16T16:58:34.836Z",
+                      "updated_at": "2022-06-16T17:20:08.210Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User doesn't exists or User is not an administrator",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "User doesn't exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Return an user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "d93c2c01-9bd0-4219-914f-e38c6765885c",
+                    "admin": true,
+                    "name": "Juninho",
+                    "email": "juninho@email.com",
+                    "created_at": "2022-06-16T16:58:34.836Z",
+                    "updated_at": "2022-06-16T17:20:08.210Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "User doesn't exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Turn user admin",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "d93c2c01-9bd0-4219-914f-e38c6765885c",
+                    "admin": true,
+                    "name": "Juninho",
+                    "email": "juninho@email.com",
+                    "created_at": "2022-06-16T16:58:34.836Z",
+                    "updated_at": "2022-06-16T17:20:08.210Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User doesn't exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
